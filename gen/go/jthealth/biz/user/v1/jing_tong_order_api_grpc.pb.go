@@ -23,6 +23,8 @@ type JingTongOrderAPIClient interface {
 	JingTongGetWxMiniProOpenIdByCode(ctx context.Context, in *JingTongGetWxMiniProOpenIdByCodeRequest, opts ...grpc.CallOption) (*JingTongGetWxMiniProOpenIdByCodeResponse, error)
 	//创建订单
 	JingTongCreateOrder(ctx context.Context, in *JingTongCreateOrderRequest, opts ...grpc.CallOption) (*JingTongCreateOrderResponse, error)
+	//获取订单详情
+	JingTongGetOrderDetail(ctx context.Context, in *JingTongGetOrderDetailRequest, opts ...grpc.CallOption) (*JingTongGetOrderDetailResponse, error)
 	//微信支付通知
 	JingTongNotify(ctx context.Context, in *JingTongNotifyRequest, opts ...grpc.CallOption) (*JingTongNotifyResponse, error)
 	//获取订单列表
@@ -31,6 +33,8 @@ type JingTongOrderAPIClient interface {
 	JingTongOrderStatistical(ctx context.Context, in *JingTongOrderStatisticalRequest, opts ...grpc.CallOption) (*JingTongOrderStatisticalResponse, error)
 	//后台获取订单列表
 	JingTongBGGetOrderList(ctx context.Context, in *JingTongBGGetOrderListRequest, opts ...grpc.CallOption) (*JingTongBGGetOrderListResponse, error)
+	//使用测量次数
+	JingTongUseMeasurementCount(ctx context.Context, in *JingTongUseMeasurementCountRequest, opts ...grpc.CallOption) (*JingTongUseMeasurementCountResponse, error)
 }
 
 type jingTongOrderAPIClient struct {
@@ -62,6 +66,15 @@ func (c *jingTongOrderAPIClient) JingTongGetWxMiniProOpenIdByCode(ctx context.Co
 func (c *jingTongOrderAPIClient) JingTongCreateOrder(ctx context.Context, in *JingTongCreateOrderRequest, opts ...grpc.CallOption) (*JingTongCreateOrderResponse, error) {
 	out := new(JingTongCreateOrderResponse)
 	err := c.cc.Invoke(ctx, "/jthealth.biz.user.v1.JingTongOrderAPI/JingTongCreateOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *jingTongOrderAPIClient) JingTongGetOrderDetail(ctx context.Context, in *JingTongGetOrderDetailRequest, opts ...grpc.CallOption) (*JingTongGetOrderDetailResponse, error) {
+	out := new(JingTongGetOrderDetailResponse)
+	err := c.cc.Invoke(ctx, "/jthealth.biz.user.v1.JingTongOrderAPI/JingTongGetOrderDetail", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -104,6 +117,15 @@ func (c *jingTongOrderAPIClient) JingTongBGGetOrderList(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *jingTongOrderAPIClient) JingTongUseMeasurementCount(ctx context.Context, in *JingTongUseMeasurementCountRequest, opts ...grpc.CallOption) (*JingTongUseMeasurementCountResponse, error) {
+	out := new(JingTongUseMeasurementCountResponse)
+	err := c.cc.Invoke(ctx, "/jthealth.biz.user.v1.JingTongOrderAPI/JingTongUseMeasurementCount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // JingTongOrderAPIServer is the server API for JingTongOrderAPI service.
 // All implementations must embed UnimplementedJingTongOrderAPIServer
 // for forward compatibility
@@ -114,6 +136,8 @@ type JingTongOrderAPIServer interface {
 	JingTongGetWxMiniProOpenIdByCode(context.Context, *JingTongGetWxMiniProOpenIdByCodeRequest) (*JingTongGetWxMiniProOpenIdByCodeResponse, error)
 	//创建订单
 	JingTongCreateOrder(context.Context, *JingTongCreateOrderRequest) (*JingTongCreateOrderResponse, error)
+	//获取订单详情
+	JingTongGetOrderDetail(context.Context, *JingTongGetOrderDetailRequest) (*JingTongGetOrderDetailResponse, error)
 	//微信支付通知
 	JingTongNotify(context.Context, *JingTongNotifyRequest) (*JingTongNotifyResponse, error)
 	//获取订单列表
@@ -122,6 +146,8 @@ type JingTongOrderAPIServer interface {
 	JingTongOrderStatistical(context.Context, *JingTongOrderStatisticalRequest) (*JingTongOrderStatisticalResponse, error)
 	//后台获取订单列表
 	JingTongBGGetOrderList(context.Context, *JingTongBGGetOrderListRequest) (*JingTongBGGetOrderListResponse, error)
+	//使用测量次数
+	JingTongUseMeasurementCount(context.Context, *JingTongUseMeasurementCountRequest) (*JingTongUseMeasurementCountResponse, error)
 	mustEmbedUnimplementedJingTongOrderAPIServer()
 }
 
@@ -138,6 +164,9 @@ func (UnimplementedJingTongOrderAPIServer) JingTongGetWxMiniProOpenIdByCode(cont
 func (UnimplementedJingTongOrderAPIServer) JingTongCreateOrder(context.Context, *JingTongCreateOrderRequest) (*JingTongCreateOrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JingTongCreateOrder not implemented")
 }
+func (UnimplementedJingTongOrderAPIServer) JingTongGetOrderDetail(context.Context, *JingTongGetOrderDetailRequest) (*JingTongGetOrderDetailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method JingTongGetOrderDetail not implemented")
+}
 func (UnimplementedJingTongOrderAPIServer) JingTongNotify(context.Context, *JingTongNotifyRequest) (*JingTongNotifyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JingTongNotify not implemented")
 }
@@ -149,6 +178,9 @@ func (UnimplementedJingTongOrderAPIServer) JingTongOrderStatistical(context.Cont
 }
 func (UnimplementedJingTongOrderAPIServer) JingTongBGGetOrderList(context.Context, *JingTongBGGetOrderListRequest) (*JingTongBGGetOrderListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JingTongBGGetOrderList not implemented")
+}
+func (UnimplementedJingTongOrderAPIServer) JingTongUseMeasurementCount(context.Context, *JingTongUseMeasurementCountRequest) (*JingTongUseMeasurementCountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method JingTongUseMeasurementCount not implemented")
 }
 func (UnimplementedJingTongOrderAPIServer) mustEmbedUnimplementedJingTongOrderAPIServer() {}
 
@@ -213,6 +245,24 @@ func _JingTongOrderAPI_JingTongCreateOrder_Handler(srv interface{}, ctx context.
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(JingTongOrderAPIServer).JingTongCreateOrder(ctx, req.(*JingTongCreateOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _JingTongOrderAPI_JingTongGetOrderDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JingTongGetOrderDetailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JingTongOrderAPIServer).JingTongGetOrderDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/jthealth.biz.user.v1.JingTongOrderAPI/JingTongGetOrderDetail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JingTongOrderAPIServer).JingTongGetOrderDetail(ctx, req.(*JingTongGetOrderDetailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -289,6 +339,24 @@ func _JingTongOrderAPI_JingTongBGGetOrderList_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _JingTongOrderAPI_JingTongUseMeasurementCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JingTongUseMeasurementCountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JingTongOrderAPIServer).JingTongUseMeasurementCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/jthealth.biz.user.v1.JingTongOrderAPI/JingTongUseMeasurementCount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JingTongOrderAPIServer).JingTongUseMeasurementCount(ctx, req.(*JingTongUseMeasurementCountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _JingTongOrderAPI_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "jthealth.biz.user.v1.JingTongOrderAPI",
 	HandlerType: (*JingTongOrderAPIServer)(nil),
@@ -306,6 +374,10 @@ var _JingTongOrderAPI_serviceDesc = grpc.ServiceDesc{
 			Handler:    _JingTongOrderAPI_JingTongCreateOrder_Handler,
 		},
 		{
+			MethodName: "JingTongGetOrderDetail",
+			Handler:    _JingTongOrderAPI_JingTongGetOrderDetail_Handler,
+		},
+		{
 			MethodName: "JingTongNotify",
 			Handler:    _JingTongOrderAPI_JingTongNotify_Handler,
 		},
@@ -320,6 +392,10 @@ var _JingTongOrderAPI_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "JingTongBGGetOrderList",
 			Handler:    _JingTongOrderAPI_JingTongBGGetOrderList_Handler,
+		},
+		{
+			MethodName: "JingTongUseMeasurementCount",
+			Handler:    _JingTongOrderAPI_JingTongUseMeasurementCount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

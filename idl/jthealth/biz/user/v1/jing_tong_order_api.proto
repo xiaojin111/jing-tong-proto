@@ -23,6 +23,8 @@ service JingTongOrderAPI{
   rpc JingTongGetWxMiniProOpenIdByCode(JingTongGetWxMiniProOpenIdByCodeRequest)returns(JingTongGetWxMiniProOpenIdByCodeResponse);
   //创建订单
   rpc JingTongCreateOrder(JingTongCreateOrderRequest)returns(JingTongCreateOrderResponse);
+  //获取订单详情
+  rpc JingTongGetOrderDetail(JingTongGetOrderDetailRequest)returns(JingTongGetOrderDetailResponse);
   //微信支付通知
   rpc JingTongNotify(JingTongNotifyRequest)returns(JingTongNotifyResponse);
   //获取订单列表
@@ -31,6 +33,8 @@ service JingTongOrderAPI{
   rpc JingTongOrderStatistical(JingTongOrderStatisticalRequest)returns(JingTongOrderStatisticalResponse);
   //后台获取订单列表
   rpc JingTongBGGetOrderList(JingTongBGGetOrderListRequest)returns(JingTongBGGetOrderListResponse);
+  //使用测量次数
+  rpc JingTongUseMeasurementCount(JingTongUseMeasurementCountRequest)returns(JingTongUseMeasurementCountResponse);
 }
 
 //获取用户剩余测量次数请求
@@ -75,6 +79,25 @@ message JingTongCreateOrderResponse{
   double price = 10;
 }
 
+//获取订单详情请求
+message JingTongGetOrderDetailRequest{
+  // 系统订单号
+  string order_id = 1;
+}
+//获取订单详情响应
+message JingTongGetOrderDetailResponse{
+  // 系统订单号
+  string order_id = 1;
+  //支付金额
+  double price = 2;
+  //支付状态
+  string status = 3;
+  //支付时间
+  string pay_time = 4;
+  //微信支付订单号
+  string transaction_id = 5;
+}
+
 //微信支付通知请求
 message JingTongNotifyRequest{
   string body = 1;
@@ -82,7 +105,6 @@ message JingTongNotifyRequest{
 }
 //微信支付通知响应
 message JingTongNotifyResponse{
-
 }
 
 //获取订单列表请求
@@ -142,4 +164,11 @@ message JingTongBGGetOrderListResponse{
   repeated JingTongOrderMsg list = 5;
 }
 
-
+//使用测量次数请求
+message JingTongUseMeasurementCountRequest{
+  string user_id = 1;
+}
+//使用测量次数响应
+message JingTongUseMeasurementCountResponse{
+  int32 count = 1;
+}
