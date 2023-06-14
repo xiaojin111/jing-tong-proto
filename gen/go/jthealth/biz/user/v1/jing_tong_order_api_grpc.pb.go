@@ -35,6 +35,8 @@ type JingTongOrderAPIClient interface {
 	JingTongBGGetOrderList(ctx context.Context, in *JingTongBGGetOrderListRequest, opts ...grpc.CallOption) (*JingTongBGGetOrderListResponse, error)
 	//使用测量次数
 	JingTongUseMeasurementCount(ctx context.Context, in *JingTongUseMeasurementCountRequest, opts ...grpc.CallOption) (*JingTongUseMeasurementCountResponse, error)
+	//后台导出订单列表
+	JingTongBGExportOrderList(ctx context.Context, in *JingTongBGExportOrderListRequest, opts ...grpc.CallOption) (*JingTongBGExportOrderListResponse, error)
 }
 
 type jingTongOrderAPIClient struct {
@@ -126,6 +128,15 @@ func (c *jingTongOrderAPIClient) JingTongUseMeasurementCount(ctx context.Context
 	return out, nil
 }
 
+func (c *jingTongOrderAPIClient) JingTongBGExportOrderList(ctx context.Context, in *JingTongBGExportOrderListRequest, opts ...grpc.CallOption) (*JingTongBGExportOrderListResponse, error) {
+	out := new(JingTongBGExportOrderListResponse)
+	err := c.cc.Invoke(ctx, "/jthealth.biz.user.v1.JingTongOrderAPI/JingTongBGExportOrderList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // JingTongOrderAPIServer is the server API for JingTongOrderAPI service.
 // All implementations must embed UnimplementedJingTongOrderAPIServer
 // for forward compatibility
@@ -148,6 +159,8 @@ type JingTongOrderAPIServer interface {
 	JingTongBGGetOrderList(context.Context, *JingTongBGGetOrderListRequest) (*JingTongBGGetOrderListResponse, error)
 	//使用测量次数
 	JingTongUseMeasurementCount(context.Context, *JingTongUseMeasurementCountRequest) (*JingTongUseMeasurementCountResponse, error)
+	//后台导出订单列表
+	JingTongBGExportOrderList(context.Context, *JingTongBGExportOrderListRequest) (*JingTongBGExportOrderListResponse, error)
 	mustEmbedUnimplementedJingTongOrderAPIServer()
 }
 
@@ -181,6 +194,9 @@ func (UnimplementedJingTongOrderAPIServer) JingTongBGGetOrderList(context.Contex
 }
 func (UnimplementedJingTongOrderAPIServer) JingTongUseMeasurementCount(context.Context, *JingTongUseMeasurementCountRequest) (*JingTongUseMeasurementCountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JingTongUseMeasurementCount not implemented")
+}
+func (UnimplementedJingTongOrderAPIServer) JingTongBGExportOrderList(context.Context, *JingTongBGExportOrderListRequest) (*JingTongBGExportOrderListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method JingTongBGExportOrderList not implemented")
 }
 func (UnimplementedJingTongOrderAPIServer) mustEmbedUnimplementedJingTongOrderAPIServer() {}
 
@@ -357,6 +373,24 @@ func _JingTongOrderAPI_JingTongUseMeasurementCount_Handler(srv interface{}, ctx 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _JingTongOrderAPI_JingTongBGExportOrderList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JingTongBGExportOrderListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JingTongOrderAPIServer).JingTongBGExportOrderList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/jthealth.biz.user.v1.JingTongOrderAPI/JingTongBGExportOrderList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JingTongOrderAPIServer).JingTongBGExportOrderList(ctx, req.(*JingTongBGExportOrderListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _JingTongOrderAPI_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "jthealth.biz.user.v1.JingTongOrderAPI",
 	HandlerType: (*JingTongOrderAPIServer)(nil),
@@ -396,6 +430,10 @@ var _JingTongOrderAPI_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "JingTongUseMeasurementCount",
 			Handler:    _JingTongOrderAPI_JingTongUseMeasurementCount_Handler,
+		},
+		{
+			MethodName: "JingTongBGExportOrderList",
+			Handler:    _JingTongOrderAPI_JingTongBGExportOrderList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

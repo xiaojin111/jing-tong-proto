@@ -35,6 +35,8 @@ service JingTongOrderAPI{
   rpc JingTongBGGetOrderList(JingTongBGGetOrderListRequest)returns(JingTongBGGetOrderListResponse);
   //使用测量次数
   rpc JingTongUseMeasurementCount(JingTongUseMeasurementCountRequest)returns(JingTongUseMeasurementCountResponse);
+  //后台导出订单列表
+  rpc JingTongBGExportOrderList(JingTongBGExportOrderListRequest)returns(JingTongBGExportOrderListResponse);
 }
 
 //获取用户剩余测量次数请求
@@ -171,4 +173,14 @@ message JingTongUseMeasurementCountRequest{
 //使用测量次数响应
 message JingTongUseMeasurementCountResponse{
   int32 count = 1;
+}
+
+//后台导出订单列表请求
+message JingTongBGExportOrderListRequest{
+  string phone = 1;
+}
+//后台导出订单列表响应
+message JingTongBGExportOrderListResponse{
+  bytes data = 1;
+  string file_name = 2;
 }
