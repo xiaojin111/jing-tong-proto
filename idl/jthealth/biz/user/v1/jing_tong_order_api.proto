@@ -178,6 +178,8 @@ message JingTongUseMeasurementCountResponse{
 //后台导出订单列表请求
 message JingTongBGExportOrderListRequest{
   string phone = 1;
+  int64 start_time = 2;
+  int64 end_time = 3;
 }
 //后台导出订单列表响应
 message JingTongBGExportOrderListResponse{
